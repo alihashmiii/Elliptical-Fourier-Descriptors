@@ -259,7 +259,7 @@ class ShapeDescriptor(EFAcoefficients):
         r = starmat[0][0]*starmat[0][-1] - starmat[0][1]*starmat[0][-2]
 
         if r<0:
-            for i,val in enumerate(starmat):
+            for i,_ in enumerate(starmat):
                 starmat[i][1] *= -1
                 starmat[i][-1] *= -1
         starmat = np.array(starmat)
@@ -331,7 +331,7 @@ class ShapeDescriptor(EFAcoefficients):
                 \n(zetaplus: {3},zetaminus: {4})\n".format(i+1,
                 lclambdaplus[i],lclambdaminus[i],lczetaplus[i],lczetaminus[i]))
 
-        for i,val in enumerate(modes):
+        for i,_ in enumerate(modes):
             lcaplus[i] = lclambdaplus[i]*np.cos(lczetaplus[i])
             lcbplus[i]= -lclambdaplus[i]*np.sin(lczetaplus[i])
             lccplus[i] = lclambdaplus[i]*np.sin(lczetaplus[i])
