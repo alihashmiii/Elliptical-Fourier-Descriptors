@@ -22,6 +22,6 @@ Note: Lobe-Contribution EFA is based on the following paper: by Yara Sanchez-Cor
 ![Alt text](https://user-images.githubusercontent.com/10793580/34066622-a78f21ac-e211-11e7-8980-5eb7ae64bb88.png)
 
 
-`cells can be quantified`
+`shapes of cells and complex objects can be quantified as well`
 
 ![Alt text](https://user-images.githubusercontent.com/10793580/34066829-ec903170-e215-11e7-9386-658b86eead64.png)
