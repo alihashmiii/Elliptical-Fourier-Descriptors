@@ -8,13 +8,16 @@ BeginPackage["EllipticalDescriptors`"]
 
 
 generateContour::usage = "generateContour[input] either takes in a binarized image or a list of positions and creates a contour";
-ellipticalCoefficients::usage = "elliptical Coefficients[contour, order] takes in a contour and a harmonic order to compute elliptical fourier coefficients";
-plotEFD::usage = "plotEFD[contour_, coeff_, ptsToplot_:300, locus_:None] takes a contour and the elliptical fourier coefficients to plot the shape from the 
- coefficients atop the contour";
-lobeContribution::usage = "lobeContribution[contour,ellipticalcoefficients] will take the contour and elliptical coefficients to give the lobe contribution
-effects. The method is based on \" et al\" ";
-EllipticalFourierDescriptor::usage = "EllipticalFourierDescriptors[contour, options] takes in a binarized image or a list of positions to compute the
-elliptical fourier coefficients. The function can take in an option to yield lobe contributions";
+ellipticalCoefficients::usage = "elliptical Coefficients[contour, order] takes in a contour and a harmonic order to compute elliptical
+fourier coefficients";
+plotEFD::usage = "plotEFD[contour_, coeff_, ptsToplot_:300, locus_:None] takes a contour and the elliptical fourier coefficients
+to plot the shape from the coefficients atop the contour";
+lobeContribution::usage = "lobeContribution[contour,ellipticalcoefficients] will take the contour and elliptical coefficients to give
+the lobe contribution effects. The metric is based on the work of YE Sanchez-Corrales et al";
+EllipticalFourierDescriptor::usage = "EllipticalFourierDescriptors[contour, options] takes in a binarized image or a list of positions
+to compute the elliptical fourier coefficients. Different options for which the default values are set as follows:
+\"normalize\" -> True, \"sizeInvariance\" -> True, \"order\" -> 10, \"ptsToplot\" ->300, \"locus\" -> {0.,0.}, \"lobeContribution\" ->
+False";
 
 
 (* ::Section:: *)
@@ -75,8 +78,8 @@ If[sizeInvariance,a=First@@coeffList;coeffList/=a,coeffList]
 ];
 
 
-plotEFD[contour_,coeff_,ptsToplot_:300,locus_:None]:=First@Last@Reap@Block[{order=Length@coeff,nhalf,ti,xt,yt,\[Theta],dcVal,dcCoefficients,
-xi,A0,\[Delta],C0,dXY,dt,t,T,\[Phi]},
+plotEFD[contour_,coeff_,ptsToplot_:300,locus_:None]:=First@Last@Reap@Block[{order=Length@coeff,nhalf,ti,xt,yt,\[Theta],dcVal,
+dcCoefficients, xi,A0,\[Delta],C0,dXY,dt,t,T,\[Phi]},
 dcCoefficients:=({dXY,dt,t,T,\[Phi]}=paramsContour[contour];
 xi=Accumulate[Part[dXY,All,1]]-(dXY[[All,1]]/dt)*Rest@t;
 A0=(1/T)*Total@(dXY[[All,1]]/(2 dt)*Differences[t^2]+xi*dt);
@@ -92,19 +95,22 @@ Do[
 xt+=coeff[[j,1]] Cos[2 (j) \[Pi] ti]+coeff[[j,2]] Sin[2 (j) \[Pi] ti];
 yt+=coeff[[j,3]] Cos[2 (j) \[Pi] ti]+coeff[[j,4]] Sin[2 (j) \[Pi] ti];
 Sow[
-Graphics[{{Thick,XYZColor[0,0,1,0.6],Line@Thread[{xt,yt}]},{Thick,Dashed,Black,Line@contour},Inset[Style[#,{XYZColor[1,0,0,0.8],Bold,FontSize->12}]&@Text["harmonic: "<>ToString@j]]}]
+Graphics[{{Thick,XYZColor[0,0,1,0.6],Line@Thread[{xt,yt}]},{Thick,Dashed,Black,Line@contour},
+Inset[Style[#,{XYZColor[1,0,0,0.8],Bold,FontSize->12}]&@Text["harmonic: "<>ToString@j]]}]
 ],{j,order}]
 ];
 
 
-lobeContribution[contour:{{__Integer}..},modes_,debug_: False]:=Module[{starmat={},lcL={},lambdaminus,lambdaminusvec={},lambdaplus,lambdaplusvec={},
-zetaplus,zetaplusvec={},zetaminus,zetaminusvec={},lczetaplus,lclambdaplus,lczetaminus,lclambdaminus,lcaplus,lcbplus,lccplus,
-lcdplus,lcaminus,lcbminus,lccminus,lcdminus,maxerror=1 10^-13,tau,alphaprime,gammaprime,\[Rho],alphastar,betastar,gammastar,deltastar,
-r,a,b,c,d,\[Phi],aprime,bprime,cprime,dprime,\[Theta],lambda1,lambda12,lambda21,lambda2,lclambdaplusZeroM,lczetaplusZeroM,len=Length@modes},
+lobeContribution[contour:{{__Integer}..},modes_,debug_: False]:=Module[{starmat={},lcL={},lambdaminus,lambdaminusvec={},
+lambdaplus,lambdaplusvec={},zetaplus,zetaplusvec={},zetaminus,zetaminusvec={},lczetaplus,lclambdaplus,lczetaminus,lclambdaminus,
+lcaplus,lcbplus,lccplus,lcdplus,lcaminus,lcbminus,lccminus,lcdminus,maxerror=1 10^-13,tau,alphaprime,gammaprime,\[Rho],alphastar,
+betastar,gammastar,deltastar,r,a,b,c,d,\[Phi],aprime,bprime,cprime,dprime,\[Theta],lambda1,lambda12,lambda21,lambda2,
+lclambdaplusZeroM,lczetaplusZeroM,len=Length@modes},
 
 lczetaplus=lclambdaplus=lczetaminus=lclambdaminus=ConstantArray[0,len];
 lcaplus=lcbplus=lccplus=lcdplus=lcaminus=lcbminus=lccminus=lcdminus=ConstantArray[0,len];
-tau=0.5 ArcTan[modes[[1,1]]^2+modes[[1,3]]^2-modes[[1,2]]^2-modes[[1,-1]]^2,2.0*(modes[[1,1]] modes[[1,2]]+modes[[1,3]] modes[[1,-1]])];
+tau=0.5 ArcTan[modes[[1,1]]^2+modes[[1,3]]^2-modes[[1,2]]^2-modes[[1,-1]]^2,
+2.0*(modes[[1,1]] modes[[1,2]]+modes[[1,3]] modes[[1,-1]])];
 alphaprime=modes[[1,1]] Cos[tau]+modes[[1,2]] Sin[tau];
 gammaprime=modes[[1,3]] Cos[tau]+modes[[1,-1]] Sin[tau];
 \[Rho]=ArcTan[alphaprime,gammaprime];
@@ -137,7 +143,10 @@ lambda1=aprime Cos[\[Theta]]+cprime Sin[\[Theta]];
 lambda12=bprime Cos[\[Theta]]+dprime Sin[\[Theta]];
 lambda21=-aprime Sin[\[Theta]]+cprime Cos[\[Theta]];
 lambda2=-bprime Sin[\[Theta]]+dprime Cos[\[Theta]];
-If[Or[debug,Abs[lambda12]>maxerror,Abs[lambda21]>maxerror,lambda1<0,lambda1<Abs@lambda2],Which[Abs[lambda12]>maxerror||Abs[lambda21]>maxerror,Print["off-diagonal lambda matrix unequal to zero:\n"],lambda1<0,Print["Warning: lambda1 negative\n"],lambda1<Abs[lambda2],Print["Warning: lambda 1 < |lambda2|:\n"];
+If[Or[debug,Abs[lambda12]>maxerror,Abs[lambda21]>maxerror,lambda1<0,lambda1<Abs@lambda2],
+Which[Abs[lambda12]>maxerror||Abs[lambda21]>maxerror,
+Print["off-diagonal lambda matrix unequal to zero:\n"],lambda1<0,Print["Warning: lambda1 negative\n"],
+lambda1<Abs[lambda2],Print["Warning: lambda 1 < |lambda2|:\n"];
 Print["mode:\n","(lambda1,lambda12): ",{lambda1,lambda12},"\n","(lambda21,lambda2): ",{lambda1,lambda12},"\n"];];];
 lambdaplus=(lambda1+lambda2)/2.0;
 lambdaminus=(lambda1-lambda2)/2.0;
@@ -162,7 +171,8 @@ lczetaminus[[j]]=zetaminusvec[[j-1]],{j,2,len}];
 
 If[True,Print["Ln quadruplets:\n ======================"];
 Print["lc-EFA mode 0: ",{lclambdaplusZeroM,lczetaplusZeroM}];
-Do[Print["lc-EFA mode ",i,"\n","(lambdaplus: ",lclambdaplus[[i]]," lambdaminus: ",lclambdaminus[[i]],")\n","(zetaplus: ",lczetaplus[[i]]," zetaminus: ",lczetaminus[[i]],")"],{i,len}];];
+Do[Print["lc-EFA mode ",i,"\n","(lambdaplus: ",lclambdaplus[[i]]," lambdaminus: ",lclambdaminus[[i]],")\n","(zetaplus: ",
+lczetaplus[[i]]," zetaminus: ",lczetaminus[[i]],")"],{i,len}];];
 Do[lcaplus[[i]]=lclambdaplus[[i]] Cos[lczetaplus[[i]]];
 lcbplus[[i]]=-lclambdaplus[[i]] Sin[lczetaplus[[i]]];
 lccplus[[i]]=lclambdaplus[[i]] Sin[lczetaplus[[i]]];
@@ -178,7 +188,10 @@ Do[Print["\nmode: ",i,"A+\n",{lcaplus[[i]],lcbplus[[i]]},"\n",{lccplus[[i]],lcdp
 Print["\nmode: ",i,"A-\n",{lcaminus[[i]],lcbminus[[i]]},"\n",{lccminus[[i]],lcdminus[[i]]}]
 ,{i,len}]];
 
-lcL=First@Last@Reap[Do[Sow[Sqrt[lclambdaplus[[j]]^2+lclambdaminus[[j]]^2+2*lclambdaplus[[j]] lclambdaminus[[j]] Cos[lczetaplus[[j]]-lczetaminus[[j]]-2 lczetaplus[[1]]]]],{j,len}]
+lcL=First@Last@Reap[
+Do[
+Sow[Sqrt[lclambdaplus[[j]]^2+lclambdaminus[[j]]^2+
+2*lclambdaplus[[j]] lclambdaminus[[j]] Cos[lczetaplus[[j]]-lczetaminus[[j]]-2 lczetaplus[[1]]]]],{j,len}]
 ];
 
 If[True,Print["\nLn Scalar:\n ========================== "];
@@ -188,7 +201,8 @@ Do[Print["LC-EFA mode: ",i," \tLn = ",lcL[[i]]],{i,len}]];
 ];
 
 
-Options[EllipticalFourierDescriptor]={"normalize"->False,"sizeInvariance"->True,"order"->10,"ptsToplot"->300,"locus"->{0,0},"lobeContribution" -> False};
+Options[EllipticalFourierDescriptor]={"normalize"->False,"sizeInvariance"->True,"order"->10,"ptsToplot"->300,
+"locus"->{0,0},"lobeContribution" -> False};
 EllipticalFourierDescriptor[cont:_Image|{{__Integer}..},OptionsPattern[]]:=Module[{contour,coeffL,struct},
 contour=generateContour[cont]; (* generate contour *)
 coeffL=ellipticalCoefficients[contour,OptionValue["order"]]; (* compute elliptical Coefficients*)
