@@ -11,7 +11,7 @@ please check the other branch for the python implementation of the code
 Note: Lobe-Contribution EFA is based on the following paper: by Yara Sanchez-Corrales et al https://www.biorxiv.org/content/early/2017/06/30/157842
 
 
-Package usage:
+`Package usage:`
 
 
 ![Alt text](https://user-images.githubusercontent.com/10793580/34066620-a7260d84-e211-11e7-9972-ca6f7c0f0272.png)
