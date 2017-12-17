@@ -101,7 +101,7 @@ Inset[Style[#,{XYZColor[1,0,0,0.8],Bold,FontSize->12}]&@Text["harmonic: "<>ToStr
 ];
 
 
-lobeContribution[contour:{{__Integer}..},modes_,debug_: False]:=Module[{starmat={},lcL={},lambdaminus,lambdaminusvec={},
+lobeContribution[contour:{{__Integer}..},modes_]:=Module[{starmat={},lcL={},lambdaminus,lambdaminusvec={},
 lambdaplus,lambdaplusvec={},zetaplus,zetaplusvec={},zetaminus,zetaminusvec={},lczetaplus,lclambdaplus,lczetaminus,lclambdaminus,
 lcaplus,lcbplus,lccplus,lcdplus,lcaminus,lcbminus,lccminus,lcdminus,maxerror=1 10^-13,tau,alphaprime,gammaprime,\[Rho],alphastar,
 betastar,gammastar,deltastar,r,a,b,c,d,\[Phi],aprime,bprime,cprime,dprime,\[Theta],lambda1,lambda12,lambda21,lambda2,
@@ -128,10 +128,6 @@ r=starmat[[1,1]] starmat[[1,-1]]-starmat[[1,2]] starmat[[1,-2]];
 If[r<0,starmat[[All,{2,-1}]]*=-1];
 {a,b,c,d}=starmat\[Transpose];
 
-If[debug,Print["modified EFA coefficients\n =============== "];
-Do[Print["mode:",i,{a[[i]],b[[i]],c[[i]],d[[i]]}],{i,len}];];
-
-If[debug,Print["lambda matrices:\n =============== "]];
 Do[
 \[Phi]=0.5 ArcTan[a[[i]]^2+c[[i]]^2-b[[i]]^2-d[[i]]^2,2.0 (a[[i]] b[[i]]+c[[i]] d[[i]])];
 aprime=a[[i]] Cos[\[Phi]]+b[[i]] Sin[\[Phi]];
@@ -143,7 +139,7 @@ lambda1=aprime Cos[\[Theta]]+cprime Sin[\[Theta]];
 lambda12=bprime Cos[\[Theta]]+dprime Sin[\[Theta]];
 lambda21=-aprime Sin[\[Theta]]+cprime Cos[\[Theta]];
 lambda2=-bprime Sin[\[Theta]]+dprime Cos[\[Theta]];
-If[Or[debug,Abs[lambda12]>maxerror,Abs[lambda21]>maxerror,lambda1<0,lambda1<Abs@lambda2],
+If[Or[Abs[lambda12]>maxerror,Abs[lambda21]>maxerror,lambda1<0,lambda1<Abs@lambda2],
 Which[Abs[lambda12]>maxerror||Abs[lambda21]>maxerror,
 Print["off-diagonal lambda matrix unequal to zero:\n"],lambda1<0,Print["Warning: lambda1 negative\n"],
 lambda1<Abs[lambda2],Print["Warning: lambda 1 < |lambda2|:\n"];
@@ -181,12 +177,6 @@ lcaminus[[i]]=lclambdaminus[[i]] Cos[lczetaminus[[i]]];
 lcbminus[[i]]=-lclambdaminus[[i]] Sin[lczetaminus[[i]]];
 lccminus[[i]]=-lclambdaminus[[i]] Sin[lczetaminus[[i]]];
 lcdminus[[i]]=-lclambdaminus[[i]] Cos[lczetaminus[[i]]],{i,len}];
-
-If[debug,
-Print["LC coefficients:\n======================"];
-Do[Print["\nmode: ",i,"A+\n",{lcaplus[[i]],lcbplus[[i]]},"\n",{lccplus[[i]],lcdplus[[i]]}];
-Print["\nmode: ",i,"A-\n",{lcaminus[[i]],lcbminus[[i]]},"\n",{lccminus[[i]],lcdminus[[i]]}]
-,{i,len}]];
 
 lcL=First@Last@Reap[
 Do[
