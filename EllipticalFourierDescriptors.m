@@ -26,6 +26,17 @@ False";
 
 Begin["`Private`"];
 
+coeffsToRealParams[a_,b_,c_,d_]:=Block[{p=a,q=b,r=c,s=d,coeff,\[Theta],rotationMat,starMat,\[Psi],L,W,\[Phi]},
+\[Theta] = 0.5 ArcTan[(p^2  +r^2 -q^2-s^2),2(p q + r s)];
+coeff = {p,q,r,s};
+rotationMat = {{Cos[\[Theta]],-Sin[\[Theta]]},{Sin[\[Theta]],Cos[\[Theta]]}};
+starMat=Partition[coeff,2,2].rotationMat;
+\[Psi]=ArcTan[starMat[[1,1]],starMat[[2,1]]]*(180 /Pi);
+\[Phi]=ArcTan[starMat[[1,2]],starMat[[2,2]]]*(180 /Pi);
+L = Norm[{starMat[[1,1]],starMat[[2,1]]}];
+W= Norm[{starMat[[1,2]],starMat[[2,2]]}];
+{L,W,\[Psi],\[Phi]}
+];
 
 generateContour[input_]:=Module[{contourpositions,shortestpath},
 contourpositions=Switch[Head@input,Image,
