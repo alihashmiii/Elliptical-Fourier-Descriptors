@@ -3,8 +3,8 @@
 
 """
 A Python implementation of the method to calculate Fourier coefficients for characterizing closed contours.
-initial code was created by hbldh <henrik.blidh@nedomkull.com> on 2016-01-30 which has been significantly modified
-into Classes by Ali Hashmi on 2017-08-03
+initial code was created by hbldh <henrik.blidh@nedomkull.com> on 2016-01-30 which has been modified to use 
+Classes by Ali Hashmi on 2017-08-03
 """
 
 from __future__ import division
