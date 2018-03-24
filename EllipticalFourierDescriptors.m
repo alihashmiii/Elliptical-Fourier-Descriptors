@@ -90,7 +90,7 @@ If[sizeInvariance,a=First@@coeffList;coeffList/=a,coeffList]
 
 
 plotEFD[contour_,coeff_,ptsToplot_:300,locus_:None]:=First@Last@Reap@Block[{order=Length@coeff,nhalf,ti,xt,yt,\[Theta],dcVal,
-dcCoefficients, xi,A0,\[Delta],C0,dXY,dt,t,T,\[Phi]},
+dcCoefficients,xi,A0,\[Delta],C0,dXY,dt,t,T,\[Phi]},
 dcCoefficients:=({dXY,dt,t,T,\[Phi]}=paramsContour[contour];
 xi=Accumulate[Part[dXY,All,1]]-(dXY[[All,1]]/dt)*Rest@t;
 A0=(1/T)*Total@(dXY[[All,1]]/(2 dt)*Differences[t^2]+xi*dt);
@@ -195,8 +195,10 @@ Sow[Sqrt[lclambdaplus[[j]]^2+lclambdaminus[[j]]^2+
 2*lclambdaplus[[j]] lclambdaminus[[j]] Cos[lczetaplus[[j]]-lczetaminus[[j]]-2 lczetaplus[[1]]]]],{j,len}]
 ];
 
-If[True,Print["\nLn Scalar:\n ========================== "];
-Do[Print["LC-EFA mode: ",i," \tLn = ",lcL[[i]]],{i,len}]];
+If[True,
+Print["\nLn Scalar:\n ========================== "];
+Do[Print["LC-EFA mode: ",i," \tLn = ",lcL[[i]]],{i,len}]
+];
 
 {lcL,Transpose[{lclambdaplus,lclambdaminus,lczetaplus,lczetaminus}]} 
 ];
