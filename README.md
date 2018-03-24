@@ -1,11 +1,10 @@
 # Elliptical-Fourier-Analysis
 
-Date first Added: 02-03-2017.
+`@Author: Ali Hashmi`
 
-Author: Ali Hashmi
+`Date: 02-03-2017`
 
-Wolfram Language (WL) implementation (of a Python code by Henrik Blidh) for Elliptical Fourier Descriptors for 2D shape classification. The Lobe Contribution Elliptical Fourier Analysis has been implemented in the package as well. The lobe contribution can be used to 
-classify shapes with lobes such as cells (see below)
+This script is a Wolfram Language (WL) implementation (of a Python code by Henrik Blidh) for Elliptical Fourier Descriptors for 2D shape classification. The Lobe Contribution Elliptical Fourier Analysis has been implemented in the package as well. The lobe contribution can be used to classify complex shapes with lobes, for instance cells.
 
 please check the other branch for the python implementation of the code
 
