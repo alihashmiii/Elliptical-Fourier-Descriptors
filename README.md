@@ -24,3 +24,8 @@ Note: Lobe-Contribution EFA is based on the following paper: by Yara Sanchez-Cor
 `shapes of cells and complex objects can be quantified as well`
 
 ![Alt text](https://user-images.githubusercontent.com/10793580/34066829-ec903170-e215-11e7-9386-658b86eead64.png)
+
+
+**`Note: when the lobeContribution option is set to True we obtain a list with three members: the first member being the elliptical fourier coefficients, the second member is the object's outline superimposed with the contour determined from the coefficients and the third member is the information from Lobe-Contribution. \
+\
+With the option turned off, we obtain a a list without Lobe-Contribution information`**
