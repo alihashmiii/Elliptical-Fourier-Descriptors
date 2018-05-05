@@ -1,5 +1,8 @@
 # Elliptical-Fourier-Analysis
 
+![status](https://img.shields.io/badge/status-passed-blue.svg)
+
+
 `@Author: Ali Hashmi`
 
 `Date: 02-03-2017`
