@@ -15,7 +15,8 @@ W= Norm[{starMat[[1,2]],starMat[[2,2]]}];
 
 ClearAll@EllipticalFourier;
 Options[EllipticalFourier] = {normalize-> True,sizeInvariance-> True,order-> 10,ptsToplot-> 300,locus-> {0.,0.},areathreshold-> 2};
-EllipticalFourier[img_,OptionsPattern[]]:=Module[{dXY,dt,t,T,\[Phi],contourpositions, contour,contourtour,contourregion,xi,A0,\[Delta],C0,dCval,coeffL,normalizeEFD,ellipticalCoefficients,plotEFD,dcCoefficients,dcVal},
+EllipticalFourier[img_,OptionsPattern[]]:=Module[{dXY,dt,t,T,\[Phi],contourpositions, contour,contourtour,contourregion,xi,A0,
+\[Delta],C0,dCval,coeffL,normalizeEFD,ellipticalCoefficients,plotEFD,dcCoefficients,dcVal},
 contourpositions = PixelValuePositions[MorphologicalPerimeter[img],1];
 contourtour=Last@FindShortestTour[contourpositions];
 contour = Part[contourpositions,contourtour];
@@ -82,7 +83,8 @@ regionpts=Most@Thread@{xt,yt};
 shortesttour = Line@Last@FindShortestTour@regionpts;
 regiondiff=BoundaryMeshRegion[regionpts,shortesttour]~RegionDifference~contourregion;
 regiondiffmetric = Area[regiondiff]/Area[contourregion] * 100;
-Sow@{harmonicAnalysis[Sequence@@coeff[[j]]],Graphics[{{Thick,XYZColor[0,0,1,0.6],Line@Thread[{xt,yt}]},{Thick,Dashed,XYZColor[1,0,0,0.6],Line@contour},Inset[Style[#,{Black,FontSize->12}]&@Text["harmonic: " <> ToString@j]]}]};
+Sow@{harmonicAnalysis[Sequence@@coeff[[j]]],Graphics[{{Thick,XYZColor[0,0,1,0.6],Line@Thread[{xt,yt}]},
+{Thick,Dashed,XYZColor[1,0,0,0.6],Line@contour},Inset[Style[#,{Black,FontSize->12}]&@Text["harmonic: " <> ToString@j]]}]};
 j++
 ] ;
 ];
