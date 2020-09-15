@@ -17,7 +17,7 @@ N.B: Lobe-Contribution EFA is based on the following paper, Yara Sanchez-Corrale
 
 ______________________________________________________________________________________________________________________________________________________
 
-######Package usage:
+###### Package usage:
 
 
 ![Alt text](https://user-images.githubusercontent.com/10793580/34066620-a7260d84-e211-11e7-9972-ca6f7c0f0272.png)
