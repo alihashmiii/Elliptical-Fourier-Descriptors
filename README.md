@@ -12,6 +12,7 @@ This script is a Wolfram Language (WL) implementation (of a Python code by Henri
 **please check the other branch for the python implementation of the code**
 
 Reference: `Kuhl and Giardina (1982). Elliptic Fourier features of a closed contour. Computer graphics and image processing, 18(3), 236-258.`
+
 N.B: Lobe-Contribution EFA is based on the following paper, Yara Sanchez-Corrales et al https://www.biorxiv.org/content/early/2017/06/30/157842
 
 
