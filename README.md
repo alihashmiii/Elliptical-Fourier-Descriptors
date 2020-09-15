@@ -4,7 +4,6 @@
 
 
 `@Author: Ali Hashmi`
-
 `Date: 02-03-2017`
 
 This script is a Wolfram Language (WL) implementation (of a Python code by Henrik Blidh) for Elliptical Fourier Descriptors for 2D shape classification. The Lobe Contribution Elliptical Fourier Analysis has been implemented in the package as well. The lobe contribution can be used to classify complex shapes with lobes, for instance cells.
@@ -17,7 +16,7 @@ N.B: Lobe-Contribution EFA is based on the following paper, Yara Sanchez-Corrale
 
 ______________________________________________________________________________________________________________________________________________________
 
-##### Package usage:
+**Package usage:**
 
 
 ![Alt text](https://user-images.githubusercontent.com/10793580/34066620-a7260d84-e211-11e7-9972-ca6f7c0f0272.png)
