@@ -15,6 +15,7 @@ This script is a Wolfram Language (WL) implementation (of a Python code by Henri
 
 N.B: Lobe-Contribution EFA is based on the following paper, Yara Sanchez-Corrales et al https://www.biorxiv.org/content/early/2017/06/30/157842
 
+______________________________________________________________________________________________________________________________________________________
 
 `Package usage:`
 
